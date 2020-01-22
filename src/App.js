@@ -46,12 +46,21 @@ const app = props => {
 
   const [otherState, setOtherState] = useState("example");
 
+  const style = {
+    backgroundColor: "white",
+    font: "inherit",
+    border: "1px solid blue",
+    padding: "8px",
+    cursor: "pointer"
+  };
   // console.log(personsState, setOtherState);
 
   return (
     <div className="App">
       <h1>Yo, I'm a React App</h1>
-      <button onClick={() => switchNameHandler()}>Switch Name</button>
+      <button style={style} onClick={() => switchNameHandler()}>
+        Switch Name
+      </button>
       <Person
         name={personsState.persons[0].name}
         age={personsState.persons[0].age}
