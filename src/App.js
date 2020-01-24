@@ -30,7 +30,8 @@ const app = props => {
         { name: "Maxxxxy", age: 28 },
         { name: "Gavin", age: 29 },
         { name: "Jason", age: 230 }
-      ]
+      ],
+      showPersons: true
     }); // would merge with existing data
   }; // method not actively being called, but an event handler
 
@@ -41,6 +42,18 @@ const app = props => {
         { name: event.target.value, age: 29 }, // assign to input name
         { name: "Jason", age: 230 }
       ]
+    });
+  };
+
+  const togglePersonsHandler = () => {
+    const doesShow = personsState.showPersons;
+    setPersonsState({
+      persons: [
+        { name: "Max", age: 28 },
+        { name: "Gavin", age: 25 },
+        { name: "Jason", age: 25 }
+      ],
+      showPersons: !doesShow
     });
   };
 
@@ -58,25 +71,29 @@ const app = props => {
   return (
     <div className="App">
       <h1>Yo, I'm a React App</h1>
-      <button style={style} onClick={() => switchNameHandler()}>
+      <button style={style} onClick={() => togglePersonsHandler()}>
         Switch Name
       </button>
-      <Person
-        name={personsState.persons[0].name}
-        age={personsState.persons[0].age}
-        click={switchNameHandler.bind(this, "MAX")}
-      />
-      <Person
-        name={nameState.persons[1].name}
-        age={personsState.persons[1].age}
-        changed={nameChangedHandler}
-      />
-      <Person
-        name={personsState.persons[2].name}
-        age={personsState.persons[2].age}
-      >
-        My Hobbiess are gaming
-      </Person>
+      {personsState.showPersons === true ? (
+        <div>
+          <Person
+            name={personsState.persons[0].name}
+            age={personsState.persons[0].age}
+            click={switchNameHandler.bind(this, "MAX")}
+          />
+          <Person
+            name={nameState.persons[1].name}
+            age={personsState.persons[1].age}
+            changed={nameChangedHandler}
+          />
+          <Person
+            name={personsState.persons[2].name}
+            age={personsState.persons[2].age}
+          >
+            My Hobbiess are gaming
+          </Person>
+        </div>
+      ) : null}
     </div>
   );
 };
