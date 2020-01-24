@@ -57,12 +57,21 @@ const app = props => {
     });
   };
 
+  const deletePersonHandler = personIndex => {
+    const persons = personsState.persons;
+    persons.splice(personIndex, 1);
+    setPersonsState({
+      persons: persons,
+      showPersons: personsState.showPersons
+    });
+  };
+
   const [otherState, setOtherState] = useState("example");
 
   const style = {
     backgroundColor: "white",
     font: "inherit",
-    border: "1px solid blue",
+    border: "3px solid blue",
     padding: "8px",
     cursor: "pointer"
   };
@@ -73,8 +82,14 @@ const app = props => {
     // cleaner way to manage terniary operations
     persons = (
       <div>
-        {personsState.persons.map(person => {
-          return <Person name={person.name} age={person.age} />;
+        {personsState.persons.map((person, index) => {
+          return (
+            <Person
+              click={() => deletePersonHandler(index)}
+              name={person.name}
+              age={person.age}
+            />
+          );
         })}
       </div>
     );
