@@ -67,33 +67,26 @@ const app = props => {
     cursor: "pointer"
   };
   // console.log(personsState, setOtherState);
+  let persons = null;
+
+  if (personsState.showPersons) {
+    // cleaner way to manage terniary operations
+    persons = (
+      <div>
+        {personsState.persons.map(person => {
+          return <Person name={person.name} age={person.age} />;
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className="App">
       <h1>Yo, I'm a React App</h1>
       <button style={style} onClick={() => togglePersonsHandler()}>
-        Switch Name
+        Toggle Persons
       </button>
-      {personsState.showPersons === true ? (
-        <div>
-          <Person
-            name={personsState.persons[0].name}
-            age={personsState.persons[0].age}
-            click={switchNameHandler.bind(this, "MAX")}
-          />
-          <Person
-            name={nameState.persons[1].name}
-            age={personsState.persons[1].age}
-            changed={nameChangedHandler}
-          />
-          <Person
-            name={personsState.persons[2].name}
-            age={personsState.persons[2].age}
-          >
-            My Hobbiess are gaming
-          </Person>
-        </div>
-      ) : null}
+      {persons} {/*render either nothing, or the persons block */}
     </div>
   );
 };
