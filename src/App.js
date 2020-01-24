@@ -6,10 +6,11 @@ const app = props => {
   const [personsState, setPersonsState] = useState({
     // [currentState, functionToChangeState]
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Gavin", age: 25 },
-      { name: "Jason", age: 25 }
-    ]
+      { id: "a", name: "Max", age: 28 },
+      { id: "b", name: "Gavin", age: 25 },
+      { id: "c", name: "Jason", age: 25 }
+    ],
+    showPersons: true
   });
 
   const [nameState, setNameState] = useState({
@@ -35,13 +36,25 @@ const app = props => {
     }); // would merge with existing data
   }; // method not actively being called, but an event handler
 
-  const nameChangedHandler = event => {
-    setNameState({
-      persons: [
-        { name: "Max", age: 28 },
-        { name: event.target.value, age: 29 }, // assign to input name
-        { name: "Jason", age: 230 }
-      ]
+  const nameChangedHandler = (event, id) => {
+    const personIndex = personsState.persons.findIndex(p => {
+      // return true or false if it is the element i was looking for
+      return p.id === id;
+    });
+
+    const person = {
+      //alternatively: const person = Object.assign({}, personsState.persons[personIndex])
+      ...personsState.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...personsState.persons];
+    persons[personIndex] = person;
+
+    setPersonsState({
+      persons: persons,
+      showPersons: true
     });
   };
 
@@ -58,7 +71,8 @@ const app = props => {
   };
 
   const deletePersonHandler = personIndex => {
-    const persons = personsState.persons;
+    // const persons = personsState.persons.slice(); // create a copy of array before manipulating
+    const persons = [...personsState.persons]; // spread out elements into an array
     persons.splice(personIndex, 1);
     setPersonsState({
       persons: persons,
@@ -88,6 +102,8 @@ const app = props => {
               click={() => deletePersonHandler(index)}
               name={person.name}
               age={person.age}
+              key={person.id}
+              changed={event => nameChangedHandler(event, person.id)}
             />
           );
         })}
