@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import "./App.css";
 import Person from "./Person/Person";
+import Radium, { StyleRoot } from "radium";
 
 const app = props => {
   const [personsState, setPersonsState] = useState({
@@ -82,13 +83,6 @@ const app = props => {
 
   const [otherState, setOtherState] = useState("example");
 
-  const style = {
-    backgroundColor: "white",
-    font: "inherit",
-    border: "3px solid blue",
-    padding: "8px",
-    cursor: "pointer"
-  };
   // console.log(personsState, setOtherState);
   let persons = null;
 
@@ -109,17 +103,39 @@ const app = props => {
         })}
       </div>
     );
+
+    // style.backgroundColor = "red";
+    // style[":hover"] = {
+    //   backgroundColor: "salmon",
+    //   color: "black"
+    // };
+  }
+
+  const classes = [];
+  if (personsState.persons.length <= 2) {
+    classes.push("red");
+  }
+
+  if (personsState.persons.length <= 1) {
+    classes.push("bold");
   }
 
   return (
+    // <StyleRoot>
     <div className="App">
       <h1>Yo, I'm a React App</h1>
-      <button style={style} onClick={() => togglePersonsHandler()}>
+      <p className={classes.join(" ")}>This is a subheading</p>
+      <button
+        className="button"
+        alt={setPersonsState.showPersons}
+        onClick={() => togglePersonsHandler()}
+      >
         Toggle Persons
       </button>
       {persons} {/*render either nothing, or the persons block */}
     </div>
+    // </StyleRoot>
   );
 };
 
-export default app;
+export default app; // radium is just an component wrapping your app component injecting extract functionality (extra syntax)
